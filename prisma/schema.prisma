@@ -6,6 +6,108 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model Theme {
+  id Int @id @default(autoincrement())
+  nom String @unique
+  createdAt DateTime @default(now())
+
+  sites SiteTouristique[]
+}
+
+model Categorie {
+  id Int @id @default(autoincrement())
+  nom String @unique
+  createdAt DateTime @default(now())
+
+  sites SiteTouristique[]
+}
+
+model Role {
+  id Int @id @default(autoincrement())
+  role String @unique
+  utilisateurs Utilisateur[]
+}
+
+model SiteTouristique {
+  id Int @id @default(autoincrement())
+  nom String @unique
+  description String @db.Text
+  moyennes_transport String 
+  localisation String
+  wilaya Int
+  commune String
+  debute_access DateTime
+  fin_access DateTime
+  documentation_historique String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  theme Theme @relation(fields: [themeId], references: [id])
+  themeId Int
+
+  categorie Categorie @relation(fields: [categorieId], references: [id])
+  categorieId Int
+
+  medias Media[]
+
+  actualites Actualite[]
+  commentaires Commentaire[]
+
+}
+
+model Utilisateur {
+  id Int @id @default(autoincrement())
+  nom String 
+  prenom String
+  email String @unique
+  password String
+  createdAt DateTime @default(now())
+
+  role Role @relation(fields: [roleId], references: [id])
+  roleId Int
+
+  commentaires Commentaire[]
+  @@unique([nom, prenom])
+}
+
+model Media {
+  id Int @id @default(autoincrement())
+  media_type MediaType
+  media_lien String
+  site SiteTouristique @relation(fields: [siteId], references: [id])
+  siteId Int
+}
+
+model Actualite {
+  id Int @id @default(autoincrement())
+  nom String 
+  description String @db.Text
+  type String
+  date DateTime
+  centre_circle String
+  rayon Float
+
+  site SiteTouristique @relation(fields: [siteId], references: [id])
+  siteId Int
+
+}
+
+enum MediaType {
+  photo
+  video
+}
+
+model Commentaire {
+  id Int @id @default(autoincrement())
+  contenu String @db.Text
+
+  utilisateur Utilisateur @relation(fields: [utilisateurId], references: [id])
+  utilisateurId Int
+
+  site SiteTouristique @relation(fields: [siteId], references: [id])
+  siteId Int
 }
