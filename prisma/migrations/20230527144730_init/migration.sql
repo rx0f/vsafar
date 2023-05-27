@@ -1,3 +1,61 @@
+/*
+  Warnings:
+
+  - You are about to drop the `actualites` table. If the table is not empty, all the data it contains will be lost.
+  - You are about to drop the `categories` table. If the table is not empty, all the data it contains will be lost.
+  - You are about to drop the `commentaires` table. If the table is not empty, all the data it contains will be lost.
+  - You are about to drop the `medias` table. If the table is not empty, all the data it contains will be lost.
+  - You are about to drop the `roles` table. If the table is not empty, all the data it contains will be lost.
+  - You are about to drop the `sites_touristique` table. If the table is not empty, all the data it contains will be lost.
+  - You are about to drop the `themes` table. If the table is not empty, all the data it contains will be lost.
+  - You are about to drop the `utilisateurs` table. If the table is not empty, all the data it contains will be lost.
+
+*/
+-- DropForeignKey
+ALTER TABLE `actualites` DROP FOREIGN KEY `actualites_siteId_fkey`;
+
+-- DropForeignKey
+ALTER TABLE `commentaires` DROP FOREIGN KEY `commentaires_siteId_fkey`;
+
+-- DropForeignKey
+ALTER TABLE `commentaires` DROP FOREIGN KEY `commentaires_utilisateurId_fkey`;
+
+-- DropForeignKey
+ALTER TABLE `medias` DROP FOREIGN KEY `medias_siteId_fkey`;
+
+-- DropForeignKey
+ALTER TABLE `sites_touristique` DROP FOREIGN KEY `sites_touristique_categorieId_fkey`;
+
+-- DropForeignKey
+ALTER TABLE `sites_touristique` DROP FOREIGN KEY `sites_touristique_themeId_fkey`;
+
+-- DropForeignKey
+ALTER TABLE `utilisateurs` DROP FOREIGN KEY `utilisateurs_roleId_fkey`;
+
+-- DropTable
+DROP TABLE `actualites`;
+
+-- DropTable
+DROP TABLE `categories`;
+
+-- DropTable
+DROP TABLE `commentaires`;
+
+-- DropTable
+DROP TABLE `medias`;
+
+-- DropTable
+DROP TABLE `roles`;
+
+-- DropTable
+DROP TABLE `sites_touristique`;
+
+-- DropTable
+DROP TABLE `themes`;
+
+-- DropTable
+DROP TABLE `utilisateurs`;
+
 -- CreateTable
 CREATE TABLE `Theme` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
@@ -98,22 +156,22 @@ CREATE TABLE `Commentaire` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `SiteTouristique` ADD CONSTRAINT `SiteTouristique_themeId_fkey` FOREIGN KEY (`themeId`) REFERENCES `Theme`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `SiteTouristique` ADD CONSTRAINT `SiteTouristique_themeId_fkey` FOREIGN KEY (`themeId`) REFERENCES `Theme`(`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `SiteTouristique` ADD CONSTRAINT `SiteTouristique_categorieId_fkey` FOREIGN KEY (`categorieId`) REFERENCES `Categorie`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `SiteTouristique` ADD CONSTRAINT `SiteTouristique_categorieId_fkey` FOREIGN KEY (`categorieId`) REFERENCES `Categorie`(`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Utilisateur` ADD CONSTRAINT `Utilisateur_roleId_fkey` FOREIGN KEY (`roleId`) REFERENCES `Role`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Utilisateur` ADD CONSTRAINT `Utilisateur_roleId_fkey` FOREIGN KEY (`roleId`) REFERENCES `Role`(`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Media` ADD CONSTRAINT `Media_siteId_fkey` FOREIGN KEY (`siteId`) REFERENCES `SiteTouristique`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Media` ADD CONSTRAINT `Media_siteId_fkey` FOREIGN KEY (`siteId`) REFERENCES `SiteTouristique`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Actualite` ADD CONSTRAINT `Actualite_siteId_fkey` FOREIGN KEY (`siteId`) REFERENCES `SiteTouristique`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Actualite` ADD CONSTRAINT `Actualite_siteId_fkey` FOREIGN KEY (`siteId`) REFERENCES `SiteTouristique`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Commentaire` ADD CONSTRAINT `Commentaire_utilisateurId_fkey` FOREIGN KEY (`utilisateurId`) REFERENCES `Utilisateur`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Commentaire` ADD CONSTRAINT `Commentaire_utilisateurId_fkey` FOREIGN KEY (`utilisateurId`) REFERENCES `Utilisateur`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Commentaire` ADD CONSTRAINT `Commentaire_siteId_fkey` FOREIGN KEY (`siteId`) REFERENCES `SiteTouristique`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Commentaire` ADD CONSTRAINT `Commentaire_siteId_fkey` FOREIGN KEY (`siteId`) REFERENCES `SiteTouristique`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

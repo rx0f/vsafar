@@ -16,6 +16,7 @@ model Theme {
   createdAt DateTime @default(now())
 
   sites SiteTouristique[]
+
 }
 
 model Categorie {
@@ -24,12 +25,14 @@ model Categorie {
   createdAt DateTime @default(now())
 
   sites SiteTouristique[]
+
 }
 
 model Role {
   id Int @id @default(autoincrement())
   role String @unique
   utilisateurs Utilisateur[]
+
 }
 
 model SiteTouristique {
@@ -46,10 +49,10 @@ model SiteTouristique {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 
-  theme Theme @relation(fields: [themeId], references: [id])
+  theme Theme @relation(fields: [themeId], references: [id], onDelete: NoAction)
   themeId Int
 
-  categorie Categorie @relation(fields: [categorieId], references: [id])
+  categorie Categorie @relation(fields: [categorieId], references: [id], onDelete: NoAction)
   categorieId Int
 
   medias Media[]
@@ -67,7 +70,7 @@ model Utilisateur {
   password String
   createdAt DateTime @default(now())
 
-  role Role @relation(fields: [roleId], references: [id])
+  role Role @relation(fields: [roleId], references: [id], onDelete: NoAction)
   roleId Int
 
   commentaires Commentaire[]
@@ -78,8 +81,9 @@ model Media {
   id Int @id @default(autoincrement())
   media_type MediaType
   media_lien String
-  site SiteTouristique @relation(fields: [siteId], references: [id])
+  site SiteTouristique @relation(fields: [siteId], references: [id], onDelete: Cascade)
   siteId Int
+
 }
 
 model Actualite {
@@ -91,7 +95,7 @@ model Actualite {
   centre_circle String
   rayon Float
 
-  site SiteTouristique @relation(fields: [siteId], references: [id])
+  site SiteTouristique @relation(fields: [siteId], references: [id], onDelete: Cascade)
   siteId Int
 
 }
@@ -105,9 +109,10 @@ model Commentaire {
   id Int @id @default(autoincrement())
   contenu String @db.Text
 
-  utilisateur Utilisateur @relation(fields: [utilisateurId], references: [id])
+  utilisateur Utilisateur @relation(fields: [utilisateurId], references: [id], onDelete: Cascade)
   utilisateurId Int
 
-  site SiteTouristique @relation(fields: [siteId], references: [id])
+  site SiteTouristique @relation(fields: [siteId], references: [id], onDelete: Cascade)
   siteId Int
+
 }
