@@ -4,13 +4,17 @@ type LoginRequestBody = {
 };
 
 type RegisterRequestBody = {
-    nom: string;
-    prenom: string;
-    email: string;
-    role: string;
-    password: string;
+  nom: string;
+  prenom: string;
+  email: string;
+  role: string;
+  password: string;
 };
-  
+
+type AddThemeRequestBody = {
+  nom: string;
+};
+
 export function loginDataValidation(reqBody: LoginRequestBody) {
   if (!reqBody.email && !reqBody.password) return false;
   // more input data inspection
@@ -18,7 +22,11 @@ export function loginDataValidation(reqBody: LoginRequestBody) {
 }
 
 export function registerDataValidation(reqBody: RegisterRequestBody) {
-    if(!reqBody.nom && !reqBody.prenom && !reqBody.email && !reqBody.role)
+  if (!reqBody.nom && !reqBody.prenom && !reqBody.email && !reqBody.role)
+    return true;
+}
 
-    return true
+export function addThemeValidation(reqBody: AddThemeRequestBody) {
+  if (!reqBody.nom) return false;
+  return true;
 }
