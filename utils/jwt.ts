@@ -22,10 +22,20 @@ export async function signJwtAccessToken(payload: JWTPayload): Promise<string> {
     .sign(new TextEncoder().encode(secret));
 }
 
-export async function verifyJwt(token: string): Promise<JWTPayload> {
+export async function verifyJwt(token: string) {
   const secret = process.env.SECRET_KEY;
   // const decoded = jwt.verify(token, "qioperumciosdpufkwjeropiu");
   // return decoded as JwtPayload;
-  const { payload } = await jwtVerify(token, new TextEncoder().encode(secret));
-  return payload;
+
+  try {
+    const { payload } = await jwtVerify(
+      token,
+      new TextEncoder().encode(secret)
+    );
+    return payload;
+  } catch (err) {
+    console.log(err);
+
+    return null;
+  }
 }
