@@ -11,9 +11,8 @@ export async function middleware(request: NextRequest) {
   }
 
   const accessToken = request.headers.get("authorization");
-
-  if (!verifyJwt(accessToken as any))
-    return sendError("Tu dois être authentifie !", 401);
+  const verifiedJWT = await verifyJwt(accessToken as any);
+  if (!verifiedJWT) return sendError("Tu dois être authentifie !", 401);
 
   return NextResponse.next();
 }

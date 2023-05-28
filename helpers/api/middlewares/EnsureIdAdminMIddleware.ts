@@ -6,6 +6,5 @@ export default async function EnsureIsAdmin(user: any) {
     },
   });
   if (!role || role.role !== "administrateur") return false;
-
   return true;
 }
