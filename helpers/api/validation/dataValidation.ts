@@ -18,6 +18,20 @@ type CategorieRequestBody = {
   nom: string;
 };
 
+type siteRequestBody = {
+  nom: string;
+  description: string;
+  moyennes_transport: string;
+  localisation: string;
+  wilaya: number;
+  commune: string;
+  debute_access: string;
+  fin_access: string;
+  documentation_historique?: string;
+  themeId: number;
+  categorieId: number;
+};
+
 export function loginDataValidation(reqBody: LoginRequestBody) {
   if (!reqBody.email && !reqBody.password) return false;
   // more input data inspection
@@ -36,5 +50,23 @@ export function addThemeValidation(reqBody: AddThemeRequestBody) {
 
 export function addCategorieValidation(reqBody: CategorieRequestBody) {
   if (!reqBody.nom) return false;
+  return true;
+}
+
+export function siteValidation(reqBody: siteRequestBody) {
+  if (
+    !reqBody.nom &&
+    !reqBody.description &&
+    !reqBody.moyennes_transport &&
+    !reqBody.localisation &&
+    !reqBody.wilaya &&
+    !reqBody.commune &&
+    !reqBody.debute_access &&
+    !reqBody.fin_access &&
+    !reqBody.themeId &&
+    !reqBody.categorieId
+  )
+    return false;
+
   return true;
 }

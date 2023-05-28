@@ -25,3 +25,16 @@ export async function EnsureCategorieExists(id: number) {
     return false;
   }
 }
+
+export async function EnsureSiteExists(id: number) {
+  try {
+    const site = await prisma.siteTouristique.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (site) return true;
+  } catch (err) {
+    return false;
+  }
+}
