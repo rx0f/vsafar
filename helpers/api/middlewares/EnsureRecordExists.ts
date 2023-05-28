@@ -12,3 +12,16 @@ export async function EnsureThemeExists(id: number) {
     return false;
   }
 }
+
+export async function EnsureCategorieExists(id: number) {
+  try {
+    const theme = await prisma.categorie.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (theme) return true;
+  } catch (err) {
+    return false;
+  }
+}
