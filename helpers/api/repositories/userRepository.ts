@@ -5,7 +5,7 @@ type RegisterRequestBody = {
   nom: string;
   prenom: string;
   email: string;
-  role: string;
+  role: "utilisateur" | "administrateur";
   password: string;
 };
 
@@ -22,17 +22,6 @@ type LoginRequestBody = {
 
 export async function CreateByRequest(req: RegisterRequestBody) {
   let response: ResponseObject = { success: true, message: "", data: [] };
-  const role = await prisma.role.findFirst({
-    where: {
-      role: req.role,
-    },
-  });
-
-  if (!role) {
-    response.success = false;
-    response.message = "Le rôle spécifié ñ'existe pas";
-    return response;
-  }
 
   const user = await prisma.utilisateur.create({
     data: {
@@ -40,7 +29,7 @@ export async function CreateByRequest(req: RegisterRequestBody) {
       prenom: req.prenom,
       email: req.email,
       password: await bcrypt.hash(req.password, 10),
-      roleId: role.id,
+      role: req.role as any,
     },
   });
 

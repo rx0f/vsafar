@@ -28,13 +28,6 @@ model Categorie {
 
 }
 
-model Role {
-  id Int @id @default(autoincrement())
-  role String @unique
-  utilisateurs Utilisateur[]
-
-}
-
 model SiteTouristique {
   id Int @id @default(autoincrement())
   nom String @unique
@@ -68,10 +61,8 @@ model Utilisateur {
   prenom String
   email String @unique
   password String
+  role String
   createdAt DateTime @default(now())
-
-  role Role @relation(fields: [roleId], references: [id], onDelete: NoAction)
-  roleId Int
 
   commentaires Commentaire[]
   @@unique([nom, prenom])
@@ -104,6 +95,7 @@ enum MediaType {
   photo
   video
 }
+
 
 model Commentaire {
   id Int @id @default(autoincrement())

@@ -6,7 +6,7 @@ type AuthRequestBody = {
   nom: string;
   prenom: string;
   email: string;
-  role: string;
+  role: "utilisateur" | "administrateur";
   password: string;
 };
 

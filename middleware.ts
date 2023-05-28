@@ -5,14 +5,30 @@ import sendError from "./helpers/api/response/sendError";
 
 export async function middleware(request: NextRequest) {
   const requiredAuthRoutes: string[] = ["/api/admin"];
+  const requiredAdminRoutes: string[] = ["/api/admin"];
 
-  if (!requiredAuthRoutes.includes(request.nextUrl.pathname)) {
-    return NextResponse.next();
+  let includesAuth = false;
+  requiredAuthRoutes.forEach((route: string) => {
+    if (request.nextUrl.pathname.includes(route)) includesAuth = true;
+  });
+
+  if (includesAuth) {
+    const accessToken = request.headers.get("authorization");
+    const verifiedJWT = await verifyJwt(accessToken as any);
+    if (!verifiedJWT) return sendError("Tu dois être authentifie !", 401);
   }
 
-  const accessToken = request.headers.get("authorization");
-  const verifiedJWT = await verifyJwt(accessToken as any);
-  if (!verifiedJWT) return sendError("Tu dois être authentifie !", 401);
+  let includesAdmin = false;
+  requiredAdminRoutes.forEach((route: string) => {
+    if (request.nextUrl.pathname.includes(route)) includesAdmin = true;
+  });
 
+  if (includesAdmin) {
+    const accessToken = request.headers.get("authorization");
+    const user = await verifyJwt(accessToken as any);
+
+    if (user && user.role !== "administrateur")
+      return sendError("Seulement l'administrateur peut faire ca!", 403);
+  }
   return NextResponse.next();
 }
