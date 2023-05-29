@@ -24,7 +24,7 @@ type siteRequestBody = {
 export async function PUT(request: NextRequest, { params }: any) {
   const reqBody: siteRequestBody = await request.json();
   const result = await updateById(reqBody, +params.id);
-  if (!result.success) return sendError(result.message);
+  if (!result.success) return sendError(result.message, result.status);
 
   revalidatePath("/api/admin/site");
   return sendResponse(result.data, result.message);
@@ -32,7 +32,7 @@ export async function PUT(request: NextRequest, { params }: any) {
 
 export async function DELETE(request: NextRequest, { params }: any) {
   const result = await deleteById(+params.id);
-  if (!result.success) return sendError(result.message);
+  if (!result.success) return sendError(result.message, result.status);
 
   revalidatePath("/api/admin/site");
   return sendResponse(result.data, result.message);

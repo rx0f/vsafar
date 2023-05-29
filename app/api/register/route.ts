@@ -15,5 +15,5 @@ export async function POST(request: Request) {
 
   const result = await CreateByRequest(body);
   if (result.success) return sendResponse(result.data, result.message);
-  return sendError(result.message, 401);
+  return sendError(result.message);
 }

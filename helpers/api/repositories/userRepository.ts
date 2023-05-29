@@ -13,6 +13,7 @@ type ResponseObject = {
   success: boolean;
   message: string;
   data?: any;
+  status?: number;
 };
 
 type LoginRequestBody = {
@@ -23,21 +24,29 @@ type LoginRequestBody = {
 export async function CreateByRequest(req: RegisterRequestBody) {
   let response: ResponseObject = { success: true, message: "", data: [] };
 
-  const user = await prisma.utilisateur.create({
-    data: {
-      nom: req.nom,
-      prenom: req.prenom,
-      email: req.email,
-      password: await bcrypt.hash(req.password, 10),
-      role: req.role as any,
-    },
-  });
+  try {
+    const user = await prisma.utilisateur.create({
+      data: {
+        nom: req.nom,
+        prenom: req.prenom,
+        email: req.email,
+        password: await bcrypt.hash(req.password, 10),
+        role: req.role as any,
+      },
+    });
 
-  const { password, ...result } = user;
-  response.message = "L'utilisateur a été créé avec succès";
-  response.data = result;
+    const { password, ...result } = user;
+    response.message = "L'utilisateur a été créé avec succès";
+    response.data = result;
 
-  return response;
+    return response;
+  } catch (err: any) {
+    console.log(err.message);
+    response.success = false;
+    response.message = "quelque chose s'est mal passé";
+
+    return response;
+  }
 }
 
 export async function authenticateByRequest(req: LoginRequestBody) {

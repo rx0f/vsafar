@@ -15,7 +15,7 @@ export async function PUT(request: NextRequest, { params }: any) {
   const requestBody: ThemeRequestBody = await request.json();
 
   const result = await updateById(requestBody, +params.id);
-  if (!result.success) return sendError(result.message, 401);
+  if (!result.success) return sendError(result.message, result.status);
 
   revalidatePath("/api/admin/theme");
   return sendResponse(result.data, result.message);
@@ -23,7 +23,7 @@ export async function PUT(request: NextRequest, { params }: any) {
 
 export async function DELETE(request: NextRequest, { params }: any) {
   const result = await deleteById(+params.id);
-  if (!result.success) return sendError(result.message, 401);
+  if (!result.success) return sendError(result.message, result.status);
 
   revalidatePath("/api/admin/theme");
   return sendResponse(result.data, result.message);

@@ -10,6 +10,7 @@ type ResponseObject = {
   success: boolean;
   message: string;
   data?: any;
+  status?: number;
 };
 
 export async function getAll() {
@@ -28,6 +29,7 @@ export async function getAll() {
     console.log(err.message);
     response.success = false;
     response.message = "quelque chose s'est mal passé";
+    response.status = 500;
 
     return response;
   }
@@ -58,6 +60,7 @@ export async function createByRequest(req: ThemeRequest) {
   } catch (err) {
     response.success = false;
     response.message = "quelque chose s'est mal passé";
+    response.status = 500;
 
     return response;
   }
@@ -125,6 +128,7 @@ export async function deleteById(id: number) {
   } catch (err) {
     response.success = false;
     response.message = "quelque chose s'est mal passé";
+    response.status = 500;
 
     return response;
   }
