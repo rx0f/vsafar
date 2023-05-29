@@ -70,3 +70,11 @@ export function siteValidation(reqBody: siteRequestBody) {
 
   return true;
 }
+
+type commentRequestBody = {
+  contenu: string;
+};
+export function commentValidation(req: commentRequestBody) {
+  if (!req.contenu) return false;
+  return true;
+}

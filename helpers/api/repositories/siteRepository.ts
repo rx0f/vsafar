@@ -1,10 +1,14 @@
 import prisma from "@/utils/prisma";
-import { siteValidation } from "@/helpers/api/validation/dataValidation";
+import {
+  commentValidation,
+  siteValidation,
+} from "@/helpers/api/validation/dataValidation";
 import {
   EnsureCategorieExists,
   EnsureThemeExists,
   EnsureSiteExists,
 } from "../middlewares/EnsureRecordExists";
+import { verifyJwt } from "@/utils/jwt";
 type ResponseObject = {
   success: boolean;
   message: string;
@@ -38,6 +42,7 @@ export async function getAll() {
       include: {
         theme: true,
         categorie: true,
+        commentaires: true,
       },
     });
     response.data = sites;
@@ -251,4 +256,72 @@ export async function deleteById(id: number) {
 
     return response;
   }
+}
+
+type commentRequestBody = {
+  contenu: string;
+};
+export async function commentById(
+  req: commentRequestBody,
+  id: number,
+  accessToken: string
+) {
+  let response: ResponseObject = {
+    success: true,
+    message: "Votre commentaire a été enregistré avec succès",
+    data: [],
+  };
+  const siteExists = await EnsureSiteExists(id);
+  if (!siteExists) {
+    response.success = false;
+    response.message = "Le site n'existe pas!";
+
+    return response;
+  }
+
+  if (!commentValidation(req)) {
+    response.success = false;
+    response.message = "Erreur de validation";
+
+    return response;
+  }
+  const user = await verifyJwt(accessToken as any);
+
+  // this condition will always be true (as the user is already verified in the middleware)
+  // It is set to avaoid typescript warning `user can be null`
+  if (user) {
+    try {
+      const newComment = await prisma.commentaire.create({
+        data: {
+          contenu: req.contenu,
+          utilisateur: {
+            connect: {
+              id: user.id as any,
+            },
+          },
+          site: {
+            connect: {
+              id,
+            },
+          },
+        },
+      });
+      response.data = newComment;
+
+      return response;
+    } catch (err: any) {
+      console.log(err.message);
+      response.success = false;
+      response.status = 500;
+      response.message = "quelque chose s'est mal passé";
+
+      return response;
+    }
+  }
+
+  response.success = false;
+  response.message = "quelque chose unattendue est passe!";
+  response.status = 500;
+
+  return response;
 }

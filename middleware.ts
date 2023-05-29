@@ -4,12 +4,14 @@ import { verifyJwt } from "./utils/jwt";
 import sendError from "./helpers/api/response/sendError";
 
 export async function middleware(request: NextRequest) {
-  const requiredAuthRoutes: string[] = ["/api/admin"];
+  const requiredAuthRoutes: string[] = ["/api/admin", "/api/utilisateur/site"];
   const requiredAdminRoutes: string[] = ["/api/admin"];
 
   let includesAuth = false;
   requiredAuthRoutes.forEach((route: string) => {
-    if (request.nextUrl.pathname.includes(route)) includesAuth = true;
+    if (request.nextUrl.pathname !== "/api/utilisateur/site") {
+      if (request.nextUrl.pathname.includes(route)) includesAuth = true;
+    }
   });
 
   if (includesAuth) {
