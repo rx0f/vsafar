@@ -1,4 +1,8 @@
 import { signJwtAccessToken } from "@/utils/jwt";
+import {
+  registerDataValidation,
+  loginDataValidation,
+} from "../validation/dataValidation";
 import prisma from "@/utils/prisma";
 import * as bcrypt from "bcrypt";
 type RegisterRequestBody = {
@@ -24,6 +28,13 @@ type LoginRequestBody = {
 export async function CreateByRequest(req: RegisterRequestBody) {
   let response: ResponseObject = { success: true, message: "", data: [] };
 
+  if (!registerDataValidation(req)) {
+    response.success = false;
+    response.message = "Erreur de validations";
+    response.data = [];
+
+    return response;
+  }
   try {
     const user = await prisma.utilisateur.create({
       data: {
@@ -51,6 +62,14 @@ export async function CreateByRequest(req: RegisterRequestBody) {
 
 export async function authenticateByRequest(req: LoginRequestBody) {
   let response: ResponseObject = { success: true, message: "", data: [] };
+
+  if (!loginDataValidation(req)) {
+    response.success = false;
+    response.message = "Erreur de validation";
+    response.data = [];
+
+    return response;
+  }
   const user = await prisma.utilisateur.findFirst({
     where: {
       email: req.email,

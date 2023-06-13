@@ -33,14 +33,15 @@ type siteRequestBody = {
 };
 
 export function loginDataValidation(reqBody: LoginRequestBody) {
-  if (!reqBody.email && !reqBody.password) return false;
+  if (!reqBody.email || !reqBody.password) return false;
   // more input data inspection
   return true;
 }
 
 export function registerDataValidation(reqBody: RegisterRequestBody) {
-  if (!reqBody.nom && !reqBody.prenom && !reqBody.email && !reqBody.role)
-    return true;
+  if (!reqBody.nom || !reqBody.prenom || !reqBody.email || !reqBody.role)
+    return false;
+  return true;
 }
 
 export function addThemeValidation(reqBody: AddThemeRequestBody) {
@@ -55,15 +56,15 @@ export function addCategorieValidation(reqBody: CategorieRequestBody) {
 
 export function siteValidation(reqBody: siteRequestBody) {
   if (
-    !reqBody.nom &&
-    !reqBody.description &&
-    !reqBody.moyennes_transport &&
-    !reqBody.localisation &&
-    !reqBody.wilaya &&
-    !reqBody.commune &&
-    !reqBody.debute_access &&
-    !reqBody.fin_access &&
-    !reqBody.themeId &&
+    !reqBody.nom ||
+    !reqBody.description ||
+    !reqBody.moyennes_transport ||
+    !reqBody.localisation ||
+    !reqBody.wilaya ||
+    !reqBody.commune ||
+    !reqBody.debute_access ||
+    !reqBody.fin_access ||
+    !reqBody.themeId ||
     !reqBody.categorieId
   )
     return false;
