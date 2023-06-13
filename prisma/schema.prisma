@@ -1,0 +1,110 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Theme {
+  id Int @id @default(autoincrement())
+  nom String @unique
+  createdAt DateTime @default(now())
+
+  sites SiteTouristique[]
+
+}
+
+model Categorie {
+  id Int @id @default(autoincrement())
+  nom String @unique
+  createdAt DateTime @default(now())
+
+  sites SiteTouristique[]
+
+}
+
+model SiteTouristique {
+  id Int @id @default(autoincrement())
+  nom String @unique
+  description String @db.Text
+  moyennes_transport String 
+  localisation String
+  wilaya Int
+  commune String
+  debute_access Int
+  fin_access Int
+  documentation_historique String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  theme Theme @relation(fields: [themeId], references: [id], onDelete: NoAction)
+  themeId Int
+
+  categorie Categorie @relation(fields: [categorieId], references: [id], onDelete: NoAction)
+  categorieId Int
+
+  medias Media[]
+
+  actualites Actualite[]
+  commentaires Commentaire[]
+
+}
+
+model Utilisateur {
+  id Int @id @default(autoincrement())
+  nom String 
+  prenom String
+  email String @unique
+  password String
+  role String
+  createdAt DateTime @default(now())
+
+  commentaires Commentaire[]
+  @@unique([nom, prenom])
+}
+
+model Media {
+  id Int @id @default(autoincrement())
+  media_type MediaType
+  media_lien String
+  site SiteTouristique @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  siteId Int
+
+}
+
+model Actualite {
+  id Int @id @default(autoincrement())
+  nom String 
+  description String @db.Text
+  type String
+  date DateTime
+  centre_circle String
+  rayon Float
+
+  site SiteTouristique @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  siteId Int
+
+}
+
+enum MediaType {
+  photo
+  video
+}
+
+
+model Commentaire {
+  id Int @id @default(autoincrement())
+  contenu String @db.Text
+
+  utilisateur Utilisateur @relation(fields: [utilisateurId], references: [id], onDelete: Cascade)
+  utilisateurId Int
+
+  site SiteTouristique @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  siteId Int
+
+}
