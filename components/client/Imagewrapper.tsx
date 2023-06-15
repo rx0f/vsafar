@@ -13,7 +13,6 @@ const ImageWrapper = ({imageRef}:{imageRef:React.MutableRefObject<any>}) => {
   // const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   // useEffect(() => {
-  //   console.log(imageRef)
   //   const changeImageWithAnimation = () => {
   //     if (imageRef.current?.style) imageRef.current.style.opacity = 0;
 

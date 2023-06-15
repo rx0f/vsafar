@@ -68,8 +68,7 @@ function DataShow (props:any) {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         var feedback = e.currentTarget.feedback.value;
-        console.log(feedback)
-        let sub = await axios.post("http://localhost:3000/api/utilisateur/site/"+props?.info?.id,{contenu:feedback} ).catch(e=>console.log(e))
+        let sub = await axios.post(process.env.NEXT_PUBLIC_BASE_URL+"/api/utilisateur/site/"+props?.info?.id,{contenu:feedback} ).catch(e=>console.log(e))
         document.getElementById("feedback")?.setAttribute("value",'')
     }
 
@@ -79,6 +78,12 @@ function DataShow (props:any) {
         <p>{props?.info?.description}</p>
         <h1 className="font-bold inline">Moyennes de transportation</h1>
         <p className="inline ml-1">{props?.info?.moyennes_transport}</p>
+        <h1 className="font-bold ">Actualites</h1>
+        {
+            !props?.info?.actualites?.length? <></>
+            :props.info.actualites.map ((act:any)=><CollapseNews headline={act.nom} date={act.date} description={act.description} type={act.type} />)
+              
+        }
         {
             props?.info?.documentation_historique &&(
             <div>
@@ -86,7 +91,7 @@ function DataShow (props:any) {
             <p className="inline ml-1">{props?.info?.documentation_historique}</p>
             </div>)
         }
-
+        <h1 className="font-bold ">Plus d'information</h1>
         <div className="space-x-4">
             <img src={clock.src} className="w-8 inline" alt="" />
             <span>Ouvre:  {props?.info?.debute_access}</span>
@@ -103,8 +108,26 @@ function DataShow (props:any) {
         <form onSubmit={handleSubmit}>
         <textarea placeholder="Laissez nous un feed_back..." name="feedback" id="feedback" className="textarea textarea-bordered textarea-md w-full " ></textarea>
         <button className="btn w-full sm:btn-sm md:btn-md" type="submit">submit</button>
+
         </form>
 
+        </div>
+    )
+}
+
+{/* <CollapseNews headline={props?.info?.nom} date={props?.info?.actualites?.date} description={props?.info?.actualites?.description} type={props?.info?.actualites?.type} /> */}
+
+function CollapseNews (props:any){
+    return (
+        <div tabIndex={0} className="collapse collapse-arrow border border-base-300 bg-base-200">
+        <div className="collapse-title text-xl font-medium">
+            {props.headline}
+        </div>
+        <div className="collapse-content"> 
+        <h1 className="font-bold">Type : {props.type}</h1>
+        <h2 className="font-semibold">{(new Date(props.date)).toDateString()}</h2>
+            <p>{props.description}</p>
+        </div>
         </div>
     )
 }

@@ -42,7 +42,8 @@ export default function MyComponent() {
     {
       !cardsByselector.length ? <></>
       :
-      cardsByselector.map((card:any)=>{
+      <>
+      {cardsByselector.map((card:any)=>{
         const labelMaker = {
           text: card.nom||'', 
           color: '#fff', 
@@ -57,7 +58,32 @@ export default function MyComponent() {
         if (isNaN(lat)||isNaN(lng)) return <></>
         // @ts-ignore
         return <Marker position={{lat, lng}} onClick={()=>{setToggleModel(card)}}  label={labelMaker} icon={{url:safar.src,scaledSize:new google.maps.Size(60,60)}}/>
-      })
+      })}
+      {cardsByselector.map((card:any)=>{
+        return (
+          <>
+          {
+            !card?.actualites?.length ? <></>
+            :card.actualites.map((act:any)=>{
+              let [lat,lng] = act.centre_circle?.split(',') || [NaN,NaN]
+              lat = parseInt(lat)
+              lng = parseInt(lng)
+              if (isNaN(lat)||isNaN(lng)) return <></>
+              // @ts-ignore
+              return <Marker position={{lat, lng}}  icon={{
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 8.5,
+                fillColor: "#1f1f",
+                fillOpacity: 0.4,
+                strokeWeight: 0.
+              }}/>
+            })
+          }
+          </>
+        )
+      
+      })}
+      </>
     }
     </GoogleMap>
   }

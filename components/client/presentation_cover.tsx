@@ -66,7 +66,6 @@ function Selection({head} : {head:string}) {
     const handleChange=(e:any)=>{
         setSelector((current:any)=>{
             const update = {...current}
-            console.log("handle change")
             if (head=="categorie") update.categorie = e.target.value
             else if  (head=="theme") update.theme = e.target.value
             return update

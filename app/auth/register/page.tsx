@@ -22,10 +22,9 @@ function Signup(): JSX.Element {
     const prenom = e.currentTarget.prenom.value;
 
   
-    console.log(nom,prenom,email, password);
     toast.info("Nous vérifions votre identité, veuillez patienter un peu !",{position:'top-center',autoClose:1000})
 
-    const respo  = await axios.post("http://localhost:3000/api/register", {
+    const respo  = await axios.post(process.env.NEXT_PUBLIC_BASE_URL+"/api/register", {
         nom,
         prenom,
         email,

@@ -44,6 +44,7 @@ export async function getAll() {
         categorie: true,
         commentaires: true,
         medias:true,
+        actualites:true
       },
     });
     response.data = sites;

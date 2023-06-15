@@ -5,16 +5,10 @@ import GoUpIcon from '@/assets/GoUpIcon.svg'
 import ClientContainter from '../Container';
 import ContactFooter from './Contact';
 import Link from 'next/link';
-import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 function Footer() {
-    // const nav = useNavigate()
-    // const [user,setUser] = useElbayt()
-    const pathname = usePathname();
-
-  
+    const pathname = usePathname()
     if (pathname === "/auth") return <></>
-
     return (
         <>
         <ClientContainter LayoutBackground='z-0' Custumize='py-6 text-center'>

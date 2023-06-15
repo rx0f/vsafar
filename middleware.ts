@@ -15,7 +15,6 @@ export async function middleware(request: NextRequest) {
   });
   //REPORT : AUTHENTIFICATION BREAKING HERE
   // if (includesAuth) {
-  //   console.log("serving...")
   //   const accessToken = request.headers.get("Authorization");
   //   const verifiedJWT = await verifyJwt(accessToken as any);
   //   if (!verifiedJWT) return sendError("Tu dois être authentifie !", 401);
