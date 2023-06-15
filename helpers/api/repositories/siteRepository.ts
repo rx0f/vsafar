@@ -43,6 +43,7 @@ export async function getAll() {
         theme: true,
         categorie: true,
         commentaires: true,
+        medias:true,
       },
     });
     response.data = sites;

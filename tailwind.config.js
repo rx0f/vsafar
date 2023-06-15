@@ -7,6 +7,17 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens:{
+        "untilMd" : {min:"0px", max : "767px"},
+      },
+      colors:{
+        "night" : "#003554",
+        "primary" : "#003554",
+        "sky" : "#1c1c1c",
+        "sun" : "#FFC100" ,
+        "old" : "#D9B227"
+      
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
@@ -14,5 +25,6 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require("daisyui"),require('tailwind-scrollbar')({ nocompatible: true })],
+  
 }

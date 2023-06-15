@@ -5,20 +5,21 @@ const handler = NextAuth({
   providers: [
     CredentialsProvider({
       name: "Credentials",
-
+      
       credentials: {
         email: { label: "Email", type: "email", placeholder: "Email" },
         password: { label: "Password", type: "password" },
       },
 
       async authorize(credentials, req) {
-        const { data } = await axios.post("http://localhost:3000/api/login", {
-          username: credentials?.email,
+        console.log("creds",credentials)
+        const { data:user } = await axios.post("http://localhost:3000/api/login", {
+          email: credentials?.email,
           password: credentials?.password,
         });
-
-        if (data.user) {
-          return data.user;
+        
+        if (user) {
+          return user;
         } else {
           return null;
         }
@@ -27,13 +28,19 @@ const handler = NextAuth({
   ],
   callbacks: {
     async jwt({ token, user }) {
+      console.log({user,token})
       return { ...token, ...user };
     },
 
     async session({ session, token }) {
+      console.log({session,token})
       session.user = token as any;
       return session;
     },
+  },
+  pages: {
+    signIn: '/auth',
+    
   },
 });
 

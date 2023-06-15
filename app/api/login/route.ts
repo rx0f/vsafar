@@ -10,6 +10,7 @@ export async function POST(request: Request) {
   const body: LoginRequestBody = await request.json();
 
   const result = await authenticateByRequest(body);
+  console.log("RESULTING: ", result )
   if (result.success) return sendResponse(result.data, result.message);
 
   return sendError(result.message);
