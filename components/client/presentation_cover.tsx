@@ -22,7 +22,7 @@ function PresentationCover() {
         <div ref={TextRef} className="absolute text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center opacity-100 ">
             <h1 className='font-extrabold text-base md:text-4xl xl:text-[55px]'> <UnerLiner/></h1>
             <p className='mt-2 md:mt-10 font-semibold'>
-            Bienvenue sur Vsafar, votre guide de voyage ultime pour découvrir l'Algérie ! 
+            Bienvenue sur Vsafar, votre guide de voyage ultime pour découvrir l&apos;Algérie ! 
             <span  className='hidden md:block'>Explorez les trésors naturels, culturels et historiques de ce pays fascinant, 
             planifiez votre itinéraire avec nos conseils avisés et préparez-vous à vivre des expériences inoubliables. 
             Vsafar vous accompagne dans votre aventure touristique en Algérie.

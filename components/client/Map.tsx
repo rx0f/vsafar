@@ -43,7 +43,7 @@ export default function MyComponent() {
       !cardsByselector.length ? <></>
       :
       <>
-      {cardsByselector.map((card:any)=>{
+      {cardsByselector.map((card:any,index:any)=>{
         const labelMaker = {
           text: card.nom||'', 
           color: '#fff', 
@@ -57,9 +57,9 @@ export default function MyComponent() {
         lng = parseInt(lng)
         if (isNaN(lat)||isNaN(lng)) return <></>
         // @ts-ignore
-        return <Marker position={{lat, lng}} onClick={()=>{setToggleModel(card)}}  label={labelMaker} icon={{url:safar.src,scaledSize:new google.maps.Size(60,60)}}/>
+        return <Marker key={index} position={{lat, lng}} onClick={()=>{setToggleModel(card)}}  label={labelMaker} icon={{url:safar.src,scaledSize:new google.maps.Size(60,60)}}/>
       })}
-      {cardsByselector.map((card:any)=>{
+      {cardsByselector.map((card:any,index:any)=>{
         return (
           <>
           {
@@ -70,7 +70,7 @@ export default function MyComponent() {
               lng = parseInt(lng)
               if (isNaN(lat)||isNaN(lng)) return <></>
               // @ts-ignore
-              return <Marker position={{lat, lng}}  icon={{
+              return <Marker key={index} position={{lat, lng}}  icon={{
                 path: google.maps.SymbolPath.CIRCLE,
                 scale: 8.5,
                 fillColor: "#1f1f",

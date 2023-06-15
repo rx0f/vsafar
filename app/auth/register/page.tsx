@@ -81,7 +81,7 @@ function Signup(): JSX.Element {
                   </button>
                 
                 <Link href={"/auth/login"} className="btn w-full border-night mt-3 cursor-pointer bg-white text-night border-2 max-w-xs mx-auto rounded-xl p-3 hover:bg-night hover:text-white transition duration-300 ease-out">
-                    J'ai deja un compte !
+                    J&apos;ai deja un compte !
                 </Link>
               </form>
             </div>

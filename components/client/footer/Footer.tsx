@@ -27,7 +27,7 @@ function Footer() {
                     <div className='mx-auto grid grid-cols-1 font-extrabold text-lg text-white space-y-5 mt-12 sm:mt-0'>
                         <Link href={"/"} >Qui somme nous ?</Link>
                         <Link href={"/"} >Contactez nous </Link>
-                        <Link href={"/"} >Conditions d'utilisation</Link>
+                        <Link href={"/"} >Conditions d&apos;utilisation</Link>
                     </div>
                 </div>
                 <img onClick={()=>{window.scrollTo({top:0 , behavior: 'smooth'})}} src={GoUpIcon.src} className='cursor-pointer absolute  right-2 bottom-8'/>
@@ -35,7 +35,7 @@ function Footer() {
         </ClientContainter>
         <ClientContainter LayoutBackground='' >
             <footer className='text-center font-bold text-lg p-4' onClick={()=>{}}>
-                © 2023 VSAFAR. Tous droits réservés.  Le site touristique de l'Algérie
+                © 2023 VSAFAR. Tous droits réservés.  Le site touristique de l&apos;Algérie
             </footer>
         </ClientContainter>
         </>

@@ -2,14 +2,14 @@
 import ClientContainter from "@/components/client/Container";
 import clock from "@/assets/clock.svg"
 import mapicon from "@/assets/mapicon.svg"
-import { FormEvent, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import { VsafarProvider, useVsafar } from "../../VsafarContext";
 export default function DestinationWrapper () {
-    return <VsafarProvider><Destination></Destination></VsafarProvider>
+    return (<VsafarProvider><Destination/></VsafarProvider>)
 }
-export  function Destination () {
+function Destination () {
     const {id} = useParams()
     const [destination , setDestination] = useState<any>("loading");
     const [cards] = useVsafar()
@@ -51,7 +51,7 @@ function ImageShow ({imageData}:IImageType) {
         </div>
         <div className=" hidden sm:flex justify-end w-full py-2 gap-2 overflow-x-auto scrollbar-thumb-sky scrollbar-track-white">
         {imageData.medias.map((image:any, index:any) => (
-            <a href={`#item${index + 1}`} className="">
+            <a key={index} href={`#item${index + 1}`} className="">
                 <img src={image.media_lien} className="h-14" />
             </a>
         ))}
@@ -60,12 +60,8 @@ function ImageShow ({imageData}:IImageType) {
     )
 }
 
-interface IImageType {
-    
-}
-
 function DataShow (props:any) {
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
         var feedback = e.currentTarget.feedback.value;
         let sub = await axios.post(process.env.NEXT_PUBLIC_BASE_URL+"/api/utilisateur/site/"+props?.info?.id,{contenu:feedback} ).catch(e=>console.log(e))
@@ -81,7 +77,7 @@ function DataShow (props:any) {
         <h1 className="font-bold ">Actualites</h1>
         {
             !props?.info?.actualites?.length? <></>
-            :props.info.actualites.map ((act:any)=><CollapseNews headline={act.nom} date={act.date} description={act.description} type={act.type} />)
+            :props.info.actualites.map ((act:any,index:any)=><CollapseNews key={index} headline={act.nom} date={act.date} description={act.description} type={act.type} />)
               
         }
         {
@@ -91,7 +87,7 @@ function DataShow (props:any) {
             <p className="inline ml-1">{props?.info?.documentation_historique}</p>
             </div>)
         }
-        <h1 className="font-bold ">Plus d'information</h1>
+        <h1 className="font-bold ">Plus d&apos;information</h1>
         <div className="space-x-4">
             <img src={clock.src} className="w-8 inline" alt="" />
             <span>Ouvre:  {props?.info?.debute_access}</span>
@@ -119,7 +115,7 @@ function DataShow (props:any) {
 
 function CollapseNews (props:any){
     return (
-        <div tabIndex={0} className="collapse collapse-arrow border border-base-300 bg-base-200">
+        <div key={props.index} tabIndex={0} className="collapse collapse-arrow border border-base-300 bg-base-200">
         <div className="collapse-title text-xl font-medium">
             {props.headline}
         </div>
