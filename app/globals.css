@@ -2,3 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 @import 'react-toastify/dist/ReactToastify.css';
+
+.section-layout{
+    @apply p-4 md:p-8 lg:p-12 xl:p-20;
+}

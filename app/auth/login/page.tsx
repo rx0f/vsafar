@@ -22,8 +22,6 @@ function Signup(): JSX.Element {
       password,
       redirect: false, 
     });
-
-    console.log(result)
     
     if (!result?.error) {
       toast.success("bienvenu ! vous allez être redirigé vers notre plateforme principale",{position:'top-center'})
