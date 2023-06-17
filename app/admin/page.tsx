@@ -1,11 +1,21 @@
-import CategorieSection from "@/components/admin/CategorieSection";
+"use client";
+import CategorieSection, {
+  Categorie,
+} from "@/components/admin/CategorieSection";
 import SiteSection from "@/components/admin/SiteSection";
-import ThemeSection from "@/components/admin/ThemeSection";
+import ThemeSection, { Theme } from "@/components/admin/ThemeSection";
 
-export default function AdminPage(){
-    return <>
-        <CategorieSection/>
-        <ThemeSection/>
-        <SiteSection/>
+import { useState } from "react";
+
+export default function AdminPage() {
+  const [categories, setCategories] = useState<Categorie[]>([]);
+  const [themes, setThemes] = useState<Theme[]>([]);
+
+  return (
+    <>
+      <CategorieSection categories={categories} setCategories={setCategories} />
+      <ThemeSection themes={themes} setThemes={setThemes} />
+      <SiteSection categories={categories} themes={themes}/>
     </>
+  );
 }

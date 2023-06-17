@@ -2,14 +2,18 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-type Theme = {
+export type Theme = {
   id: number;
   nom: string;
   createdAt: string;
 };
 
-export default function ThemeSection() {
-  const [themes, setThemes] = useState<Theme[]>([]);
+type propsType = {
+  themes: Theme[];
+  setThemes: Function;
+};
+
+export default function ThemeSection({ themes, setThemes }: propsType) {
   const [nom, setNom] = useState<string>("");
 
   const getThemes = () => {

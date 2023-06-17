@@ -6,3 +6,7 @@
 .section-layout{
     @apply p-4 md:p-8 lg:p-12 xl:p-20;
 }
+
+.input-style {
+    @apply p-2 md:p-4 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-500 w-full;
+}

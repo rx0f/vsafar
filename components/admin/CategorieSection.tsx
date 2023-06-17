@@ -2,14 +2,21 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-type Categorie = {
+export type Categorie = {
   id: number;
   nom: string;
   createdAt: string;
 };
 
-export default function CategorieSection() {
-  const [categories, setCategories] = useState<Categorie[]>([]);
+type propsType = {
+  categories: Categorie[];
+  setCategories: Function;
+};
+
+export default function CategorieSection({
+  categories,
+  setCategories,
+}: propsType) {
   const [nom, setNom] = useState<string>("");
 
   const getNom = (event: React.ChangeEvent<HTMLInputElement>) => {
