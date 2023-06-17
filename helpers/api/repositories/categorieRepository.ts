@@ -133,3 +133,28 @@ export async function deleteById(id: number) {
     return response;
   }
 }
+
+export async function categorieSeed() {
+  try {
+    await prisma.categorie.create({
+      data: {
+        nom: "monuments",
+      },
+    });
+    await prisma.categorie.create({
+      data: {
+        nom: "musées",
+      },
+    });
+    await prisma.categorie.create({
+      data: {
+        nom: "places",
+      },
+    });
+
+    return true;
+  } catch (err: any) {
+    console.log(err.message);
+    return false;
+  }
+}

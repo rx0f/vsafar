@@ -71,7 +71,7 @@ model Utilisateur {
 model Media {
   id Int @id @default(autoincrement())
   media_type MediaType
-  media_lien String
+  media_lien String @db.Text
   site SiteTouristique @relation(fields: [siteId], references: [id], onDelete: Cascade)
   siteId Int
 

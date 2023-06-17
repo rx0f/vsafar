@@ -133,3 +133,23 @@ export async function deleteById(id: number) {
     return response;
   }
 }
+
+export async function themeSeed() {
+  try {
+    await prisma.theme.create({
+      data: {
+        nom: "histoire",
+      },
+    });
+    await prisma.theme.create({
+      data: {
+        nom: "nature",
+      },
+    });
+
+    return true;
+  } catch (err: any) {
+    console.log(err.message);
+    return false;
+  }
+}
