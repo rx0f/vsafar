@@ -15,6 +15,7 @@ type siteRequestBody = {
   commune: string;
   debute_access: string;
   fin_access: string;
+  media_lien?: string;
   documentation_historique?: string;
   themeId: number;
   categorieId: number;

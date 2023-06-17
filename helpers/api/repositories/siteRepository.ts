@@ -28,6 +28,7 @@ type siteRequestBody = {
   commune: string;
   debute_access: string;
   fin_access: string;
+  media_lien?: string;
   documentation_historique?: string;
   themeId: number;
   categorieId: number;
@@ -103,6 +104,7 @@ export async function createByRequest(req: siteRequestBody) {
       debute_access,
       fin_access,
       documentation_historique,
+      media_lien,
       themeId,
       categorieId,
     } = req;
@@ -125,6 +127,17 @@ export async function createByRequest(req: siteRequestBody) {
         categorie: {
           connect: {
             id: categorieId,
+          },
+        },
+      },
+    });
+    await prisma.media.create({
+      data: {
+        media_type: "photo",
+        media_lien: req.media_lien as any,
+        site: {
+          connect: {
+            id: createdSite.id as any,
           },
         },
       },
@@ -431,7 +444,7 @@ export async function seed() {
       },
     });
   } catch (err: any) {
-    console.log(err.message)
+    console.log(err.message);
     response.success = false;
     response.message = "les seeds existent deja";
     response.data = [];
