@@ -414,7 +414,7 @@ export async function seed() {
         },
       },
     });
-    await prisma.siteTouristique.create({
+    site = await prisma.siteTouristique.create({
       data: {
         nom: "MÉMORIAL DU MARTYR",
         description:
